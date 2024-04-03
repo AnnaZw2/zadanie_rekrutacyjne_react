@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";  
+import { TagElement } from "./TagElement";
+import { Tag } from "../types";
 
 function TagList() {
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([] as Tag[]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function getTags() {
       try {
-        
-        setTimeout(() => {},8000)
         const response = await fetch(
           "https://api.stackexchange.com/2.3/tags?order=desc&sort=popular&site=stackoverflow"
         );
         const data = await response.json();
-        console.log(data.items);
+        const fomrmatData:Tag[] = data.items.map((item: any) => {
+            return {
+                name: item.name,
+                count: item.count
+            };
+        })
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        setTags(data.items);
+        setTags(fomrmatData);
         setError(null);
         return data.items;
       } catch (error) {
@@ -36,7 +41,10 @@ function TagList() {
       
       }
     }
-    getTags();
+    setTimeout(() => {
+        getTags();
+    },5000)
+ 
   }, []);
 
   return (
@@ -46,12 +54,11 @@ function TagList() {
       {loading && <CircularProgress />}
       {error && <div>Error: {error.message}</div>}
       <ul>
-        {tags.map((tag: any) => (
-          <li key={tag.name}>
-            {tag.name} - {tag.count}
-          </li>
+        {tags.map((tag:Tag) => (
+           <TagElement  tag={tag}/>
         ))}
         {}
+   
       </ul>
     </div>
   );
