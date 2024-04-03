@@ -1,5 +1,5 @@
 import { Tag } from "../types";
-import { Divider, ListItem, ListItemText } from "@mui/material";
+import { Divider, ListItem, ListItemText, TableCell, TableRow } from "@mui/material";
 
 interface TagElementProps {
   tag: Tag;
@@ -8,12 +8,10 @@ interface TagElementProps {
 function TagElement({ tag }: TagElementProps) {
   const formatCount = tag.count.toLocaleString();
   return (
-    <ListItem >
-      <ListItemText
-        primary={tag.name}
-        secondary={`Related posts: ${formatCount}`}
-      />
-    </ListItem>
+    <TableRow>
+    <TableCell>{tag.name}</TableCell>
+    <TableCell>{formatCount}</TableCell>
+  </TableRow>
   );
 }
 export { TagElement };

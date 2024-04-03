@@ -2,7 +2,18 @@ import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { TagElement } from "./TagElement";
 import { Tag } from "../types";
-import { Alert, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@mui/material";
+
+import "./TagList.css";
 
 function TagList() {
   const [tags, setTags] = useState([] as Tag[]);
@@ -79,42 +90,72 @@ function TagList() {
     setWarning(null);
   };
 
+  const columns = [
+    { field: "name", headerName: "Name of tag", flex: 1 },
+    {
+      field: "count",
+      headerName: "Number of related posts",
+      flex: 1,
+      valueGetter: (params: any) => params.row.count.toLocaleString(),
+    },
+  ];
+
   return (
     <div className="container">
       <h1>Tags</h1>
 
       <div>
         <div>Set number of tags per page:</div>
-        <TextField
-          inputProps={{ type: "number", min: minVal, max: maxVal }}
-          style={{ width: "8vh" }}
-          value={value}
-          onChange={handleChange}
-          onKeyDown={(e) => (e.keyCode == 13 ? handleSubmit() : null)}
-        />
-        <Button variant="contained" onClick={handleSubmit}>
-          Submit
-        </Button>
+
+        <div className="setElements">
+          <TextField
+            inputProps={{
+              type: "number",
+              min: minVal,
+              max: maxVal,
+            }}
+            style={{ width: "8vh"}}
+            size="small"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={(e) => (e.keyCode == 13 ? handleSubmit() : null)}
+          />
+          <Button variant="contained" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </div>
       </div>
 
       {loading && <CircularProgress />}
-      {error && (
-        <Alert severity="error" onClose={handleAlertClose}>
-          Error: {error.message}
-        </Alert>
-      )}
+      {error && <Alert severity="error">Error: {error.message}</Alert>}
       {warning && (
         <Alert severity="warning" onClose={handleAlertClose}>
           {warning}
         </Alert>
       )}
 
-      <ul className="tags-container">
+      {/* <ul className="tags-container">
+        <li>Name of the tag</li>
+        <li>Number of related posts</li>
         {tags.map((tag: Tag) => (
           <TagElement tag={tag} />
         ))}
         {}
-      </ul>
+      </ul> */}
+
+      <Table sx={{ width: "80vh", margin: "auto",marginBottom:"10vh"  }}>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{fontWeight:"bold"}}>Name of the tag</TableCell>
+            <TableCell sx={{fontWeight:"bold"}}>Number of related posts</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {tags.map((tag: Tag) => (
+            <TagElement key={tag.name} tag={tag} />
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
