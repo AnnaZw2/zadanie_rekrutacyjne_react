@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";  
+import CircularProgress from "@mui/material/CircularProgress";
 import { TagElement } from "./TagElement";
 import { Tag } from "../types";
 
@@ -14,12 +14,12 @@ function TagList() {
           "https://api.stackexchange.com/2.3/tags?order=desc&sort=popular&site=stackoverflow"
         );
         const data = await response.json();
-        const fomrmatData:Tag[] = data.items.map((item: any) => {
-            return {
-                name: item.name,
-                count: item.count
-            };
-        })
+        const fomrmatData: Tag[] = data.items.map((item: any) => {
+          return {
+            name: item.name,
+            count: item.count,
+          };
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -36,29 +36,29 @@ function TagList() {
           console.error("Unknown error:", error);
           throw error;
         }
-      } finally{
+      } finally {
         setLoading(false);
-      
       }
     }
-    setTimeout(() => {
-        getTags();
-    },5000)
- 
+
+    // checking loader
+    // setTimeout(() => {
+    //   getTags();
+    // }, 5000);
+
+    getTags();
   }, []);
 
   return (
     <div>
-     
       <h1>Tags</h1>
       {loading && <CircularProgress />}
       {error && <div>Error: {error.message}</div>}
       <ul>
-        {tags.map((tag:Tag) => (
-           <TagElement  tag={tag}/>
+        {tags.map((tag: Tag) => (
+          <TagElement tag={tag} />
         ))}
         {}
-   
       </ul>
     </div>
   );
