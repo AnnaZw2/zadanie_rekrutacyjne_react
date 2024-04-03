@@ -1,8 +1,5 @@
 import { Tag } from "../types";
 import {
-  Divider,
-  ListItem,
-  ListItemText,
   TableCell,
   TableRow,
 } from "@mui/material";
