@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";  
 
 function TagList() {
-    const [tags, setTags] = useState([])
+  const [tags, setTags] = useState([]);
   const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function getTags() {
       try {
+        
+        setTimeout(() => {},8000)
         const response = await fetch(
           "https://api.stackexchange.com/2.3/tags?order=desc&sort=popular&site=stackoverflow"
         );
@@ -27,6 +31,9 @@ function TagList() {
           console.error("Unknown error:", error);
           throw error;
         }
+      } finally{
+        setLoading(false);
+      
       }
     }
     getTags();
@@ -34,11 +41,15 @@ function TagList() {
 
   return (
     <div>
+     
       <h1>Tags</h1>
+      {loading && <CircularProgress />}
       {error && <div>Error: {error.message}</div>}
       <ul>
         {tags.map((tag: any) => (
-          <li key={tag.name}>{tag.name} -  {tag.count}</li>
+          <li key={tag.name}>
+            {tag.name} - {tag.count}
+          </li>
         ))}
         {}
       </ul>
