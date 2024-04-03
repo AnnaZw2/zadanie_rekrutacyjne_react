@@ -105,7 +105,7 @@ function App() {
         maxRowsPerPage={maxRowsPerPage}
       />
 
-      {loading && <CircularProgress />}
+ 
 
       <ErrorWarningAlert
         error={error}
@@ -123,6 +123,7 @@ function App() {
         setPage={setPage}
         rowsPerPage={rowsPerPage}
         setRowsPerPage={setRowsPerPage}
+        loading={loading}
       ></TagTable>
     </Container>
   );
