@@ -1,7 +1,7 @@
-
 import { TagElement } from "./TagElement";
 import { Tag } from "../types";
 import {
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -15,9 +15,17 @@ import {
 
 import "./TagTable.css";
 
-function TagTable({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPerPage,sortConfig }: any) {
-
-
+function TagTable({
+  getTags,
+  tags,
+  setWarning,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
+  sortConfig,
+  loading,
+}: any) {
   const handleSort = (field: "name" | "popular") => {
     if (sortConfig.sortBy === field) {
       const newSortOrder = sortConfig.sortOrder === "asc" ? "desc" : "asc";
@@ -27,7 +35,12 @@ function TagTable({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPe
       sortConfig.setSortOrder("asc");
       sortConfig.setSortBy(field);
     }
-    getTags(rowsPerPage, field, sortConfig.sortOrder === "asc" ? "desc" : "asc", page);
+    getTags(
+      rowsPerPage,
+      field,
+      sortConfig.sortOrder === "asc" ? "desc" : "asc",
+      page
+    );
   };
 
   const handlePageChange = (event: any, newPage: number) => {
@@ -44,7 +57,9 @@ function TagTable({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPe
   };
   return (
     <div className="container">
+     
       <TableContainer sx={{ maxWidth: "100%", overflowX: "auto" }}>
+     
         <Table
           sx={{
             width: { xs: "100%", sm: "80vh" },
@@ -72,26 +87,32 @@ function TagTable({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPe
                 />
               </TableCell>
             </TableRow>
+    
           </TableHead>
-          <TableBody>
-            {tags.map((tag: Tag) => (
-              <TagElement key={tag.name} tag={tag} />
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                count={-1}
-                page={!tags.length || tags.length <= 0 ? 1 : page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={[10, 25, 50, 100, 200]}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowChange}
-              />
-            </TableRow>
-          </TableFooter>
+         
+          {tags.length !== 0 ? (
+            <>
+              <TableBody>
+                {tags.map((tag: Tag) => (
+                  <TagElement key={tag.name} tag={tag} />
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    count={-1}
+                    page={!tags.length || tags.length <= 0 ? 1 : page}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowChange}
+                  />
+                </TableRow>
+              </TableFooter>
+            </>
+          ) : null}
         </Table>
       </TableContainer>
+      {loading ? <CircularProgress className="loader"/> : null }
     </div>
   );
 }
