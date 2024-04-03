@@ -1,19 +1,18 @@
-import React from 'react';
-import { Tag } from '../types';
+import React from "react";
+import { Tag } from "../types";
 
 interface TagElementProps {
-    tag: Tag;
-   
-
+  tag: Tag;
 }
 
-function TagElement({tag}: TagElementProps){
-    return (
-        <div>
-        {tag.name} -  {tag.count}
-        </div>
-    )
+function TagElement({ tag }: TagElementProps) {
+    const formatCount = tag.count.toLocaleString();
+  return (
+    <div>
+      {tag.name} - {formatCount}
+      
 
-   
+    </div>
+  );
 }
-export {TagElement}
+export { TagElement };
