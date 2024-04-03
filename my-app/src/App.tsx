@@ -118,7 +118,6 @@ function App() {
         tags={tags}
         setWarning={setWarning}
         sortConfig={sortConfig}
-        defaultRowsPerPage={defaultRowsPerPage}
         page={page}
         setPage={setPage}
         rowsPerPage={rowsPerPage}

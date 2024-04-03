@@ -1,5 +1,6 @@
 import { TagElement } from "./TagElement";
 import { Tag } from "../types";
+import PropTypes from "prop-types";
 import {
   CircularProgress,
   Table,
@@ -12,7 +13,6 @@ import {
   TableRow,
   TableSortLabel,
 } from "@mui/material";
-import "./TagTable.css";
 import React from "react";
 
 function TagTable({
@@ -56,11 +56,11 @@ function TagTable({
     setPage(1);
   };
   return (
-    <>
+    <div className="container">
       <TableContainer sx={{ maxWidth: "100%", overflowX: "auto" }}>
         <Table
           sx={{
-            width: { xs: "100%", sm: "80vh" },
+            width: { xs: "100%", sm: "80vh", lg: "60vh" },
             margin: "auto",
             marginBottom: "10vh",
           }}
@@ -107,11 +107,34 @@ function TagTable({
               </TableFooter>
             </>
           ) : null}
+          {loading && (
+            <TableRow>
+              <TableCell colSpan={2} align="center" sx={{ border: "none" }
+            }>
+                <CircularProgress />
+              </TableCell>
+            </TableRow>
+          )}
         </Table>
       </TableContainer>
-      {loading ? <CircularProgress className="loader" /> : null}
-    </>
+    </div>
   );
 }
+
+TagTable.propTypes = {
+  getTags: PropTypes.func,
+  tags: PropTypes.array,
+  setWarning: PropTypes.func,
+  page: PropTypes.number,
+  setPage: PropTypes.func,
+  rowsPerPage: PropTypes.number,
+  setRowsPerPage: PropTypes.func,
+  sortConfig: {
+    sortBy: PropTypes.string,
+    setSortOrder: PropTypes.func,
+    setSortBy: PropTypes.func,
+  },
+  loading: PropTypes.bool,
+};
 
 export { TagTable };

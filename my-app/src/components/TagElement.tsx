@@ -10,7 +10,7 @@ interface TagElementProps {
 }
 
 function TagElement({ tag }: TagElementProps) {
-  const formatCount = tag.count.toLocaleString();
+  const formatCount = tag.count?.toLocaleString();
   return (
     <TableRow>
       <TableCell>{tag.name}</TableCell>

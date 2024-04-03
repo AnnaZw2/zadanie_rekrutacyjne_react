@@ -34,7 +34,7 @@ function TagHeader({
                         size="small"
                         value={rowsPerPage}
                         onChange={handleChange}
-                        onKeyDown={(e: any) => (e.keyCode == 13 ? handleSubmit() : null)}
+                        onKeyDown={(e: any) => (e.keyCode === 13 ? handleSubmit() : null)}
                     />
                     <Button variant="contained" onClick={handleSubmit}>
                         Submit
