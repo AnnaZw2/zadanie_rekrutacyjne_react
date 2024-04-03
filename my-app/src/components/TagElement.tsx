@@ -1,5 +1,5 @@
-import React from "react";
 import { Tag } from "../types";
+import { ListItem,ListItemText } from '@mui/material';
 
 interface TagElementProps {
   tag: Tag;
@@ -8,11 +8,13 @@ interface TagElementProps {
 function TagElement({ tag }: TagElementProps) {
     const formatCount = tag.count.toLocaleString();
   return (
-    <div>
-      {tag.name} - {formatCount}
-      
 
-    </div>
+    <ListItem>
+    <ListItemText
+      primary={tag.name}
+      secondary={`Related posts: ${formatCount}`}
+    />
+  </ListItem>
   );
 }
 export { TagElement };
