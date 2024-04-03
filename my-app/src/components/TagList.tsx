@@ -9,6 +9,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TablePagination,
   TableRow,
@@ -37,7 +38,6 @@ function TagList() {
     //   getTags();
     // }, 5000);
 
-    setLoading(true)
     getTags();
   }, []);
 
@@ -48,7 +48,7 @@ function TagList() {
     page = 1
   ) {
     try {
-      console.log(page, rowsPerPage);
+      setLoading(true);
       const response = await fetch(
         `https://api.stackexchange.com/2.3/tags?page=${page}&pagesize=${rowsPerPage}&order=${sortDirection}&sort=${sortFiled}&site=stackoverflow&key=4UBaAyJbbK0NiBol8i*vZA((`
       );
@@ -123,7 +123,10 @@ function TagList() {
   };
 
   const handleRowChange = (event: any) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const currentRowsPerPage = parseInt(event.target.value, 10);
+    setRowsPerPage(currentRowsPerPage);
+    getTags(currentRowsPerPage, sortBy, sortOrder, page);
+    setWarning(null);
     setPage(1);
   };
   return (
@@ -193,7 +196,8 @@ function TagList() {
               <TagElement key={tag.name} tag={tag} />
             ))}
           </TableBody>
-          {tags.length > 0 && (
+          <TableFooter>
+          <TableRow>
             <TablePagination
               count={-1}
               page={!tags.length || tags.length <= 0 ? 1 : page}
@@ -202,8 +206,10 @@ function TagList() {
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowChange}
             />
-          )}
+          </TableRow>
+        </TableFooter>
         </Table>
+     
       </TableContainer>
     </div>
   );
