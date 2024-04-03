@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
+
 import { TagElement } from "./TagElement";
 import { Tag } from "../types";
 import {
@@ -14,9 +13,9 @@ import {
   TableSortLabel,
 } from "@mui/material";
 
-import "./TagList.css";
+import "./TagTable.css";
 
-function TagList({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPerPage,sortConfig }: any) {
+function TagTable({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPerPage,sortConfig }: any) {
 
 
   const handleSort = (field: "name" | "popular") => {
@@ -33,7 +32,6 @@ function TagList({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPer
 
   const handlePageChange = (event: any, newPage: number) => {
     setPage(newPage);
-    console.log("new page", newPage);
     getTags(rowsPerPage, sortConfig.sortBy, sortConfig.sortOrder, newPage);
   };
 
@@ -98,4 +96,4 @@ function TagList({ getTags, tags, setWarning,page,setPage,rowsPerPage,setRowsPer
   );
 }
 
-export { TagList };
+export { TagTable };

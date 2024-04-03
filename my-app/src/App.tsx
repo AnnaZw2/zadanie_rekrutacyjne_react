@@ -1,5 +1,5 @@
 import { CircularProgress, Container } from "@mui/material";
-import { TagList } from "./components/TagList";
+import { TagTable } from "./components/TagTable";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { Tag } from "./types";
@@ -19,10 +19,6 @@ function App() {
   const [rowsPerPage, setRowsPerPage] = useState<number>(defaultRowsPerPage);
 
   useEffect(() => {
-    // checking loader
-    // setTimeout(() => {
-    //   getTags();
-    // }, 5000);
 
     getTags();
   }, []);
@@ -64,7 +60,7 @@ function App() {
       setLoading(false);
     }
   }
-  console.log(page);
+
   const handleChange = (event: any) => {
     setRowsPerPage(event.target.value);
   };
@@ -117,7 +113,7 @@ function App() {
         handleAlertClose={handleAlertClose}
       />
 
-      <TagList
+      <TagTable
         getTags={getTags}
         tags={tags}
         setWarning={setWarning}
@@ -127,8 +123,7 @@ function App() {
         setPage={setPage}
         rowsPerPage={rowsPerPage}
         setRowsPerPage={setRowsPerPage}
-     
-      ></TagList>
+      ></TagTable>
     </Container>
   );
 }
