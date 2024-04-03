@@ -12,8 +12,8 @@ import {
   TableRow,
   TableSortLabel,
 } from "@mui/material";
-
 import "./TagTable.css";
+import React from "react";
 
 function TagTable({
   getTags,
@@ -56,10 +56,8 @@ function TagTable({
     setPage(1);
   };
   return (
-    <div className="container">
-     
+    <>
       <TableContainer sx={{ maxWidth: "100%", overflowX: "auto" }}>
-     
         <Table
           sx={{
             width: { xs: "100%", sm: "80vh" },
@@ -87,14 +85,13 @@ function TagTable({
                 />
               </TableCell>
             </TableRow>
-    
           </TableHead>
-         
+
           {tags.length !== 0 ? (
             <>
               <TableBody>
                 {tags.map((tag: Tag) => (
-                  <TagElement key={tag.name} tag={tag} />
+                  <TagElement tag={tag} />
                 ))}
               </TableBody>
               <TableFooter>
@@ -112,8 +109,8 @@ function TagTable({
           ) : null}
         </Table>
       </TableContainer>
-      {loading ? <CircularProgress className="loader"/> : null }
-    </div>
+      {loading ? <CircularProgress className="loader" /> : null}
+    </>
   );
 }
 

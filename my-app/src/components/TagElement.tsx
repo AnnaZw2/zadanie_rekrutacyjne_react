@@ -1,3 +1,4 @@
+import React from "react";
 import { Tag } from "../types";
 import {
   TableCell,

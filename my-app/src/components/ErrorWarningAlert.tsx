@@ -7,7 +7,7 @@ interface ErrorWarningAlertProps {
   handleAlertClose: () => void;
 }
 
-const ErrorWarningAlert: React.FC<ErrorWarningAlertProps> = ({ error, warning, handleAlertClose }) => {
+function ErrorWarningAlert({ error, warning, handleAlertClose }: ErrorWarningAlertProps)  {
   return (
     <>
       {(error || warning) && (

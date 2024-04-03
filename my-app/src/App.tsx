@@ -1,10 +1,11 @@
-import { CircularProgress, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import { TagTable } from "./components/TagTable";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { Tag } from "./types";
 import { TagHeader } from "./components/TagHeader";
 import { ErrorWarningAlert } from "./components/ErrorWarningAlert";
+import React from "react";
 function App() {
   const [tags, setTags] = useState([] as Tag[]);
   const [error, setError] = useState<Error | null>(null);
@@ -98,7 +99,6 @@ function App() {
     <Container className="app">
       <TagHeader
         rowsPerPage={rowsPerPage}
-        setRowsPerPage={setRowsPerPage}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         minRowsPerPage={minRowsPerPage}
