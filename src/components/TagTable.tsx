@@ -15,6 +15,17 @@ import {
 } from "@mui/material";
 import React from "react";
 
+interface TagTableProps {
+  getTags: any;
+  tags: Tag[];
+  setWarning: any;
+  page: number;
+  setPage: any;
+  rowsPerPage: number;
+  setRowsPerPage: any;
+  sortConfig: any;
+  loading: boolean;
+}
 function TagTable({
   getTags,
   tags,
@@ -25,7 +36,7 @@ function TagTable({
   setRowsPerPage,
   sortConfig,
   loading,
-}: any) {
+}: TagTableProps) {
   const handleSort = (field: "name" | "popular") => {
     if (sortConfig.sortBy === field) {
       const newSortOrder = sortConfig.sortOrder === "asc" ? "desc" : "asc";
@@ -55,6 +66,7 @@ function TagTable({
     setWarning(null);
     setPage(1);
   };
+
   return (
     <div className="container">
       <TableContainer sx={{ maxWidth: "100%", overflowX: "auto" }}>
@@ -87,11 +99,11 @@ function TagTable({
             </TableRow>
           </TableHead>
 
-          {tags.length !== 0 ? (
+          {tags?.length && !loading ? (
             <>
               <TableBody>
                 {tags.map((tag: Tag) => (
-                  <TagElement tag={tag} />
+                  <TagElement key={tag.name} tag={tag} />
                 ))}
               </TableBody>
               <TableFooter>
@@ -102,18 +114,19 @@ function TagTable({
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowChange}
+                    rowsPerPageOptions={[-1]}
                   />
                 </TableRow>
               </TableFooter>
             </>
-          ) : null}
-          {loading && (
-            <TableRow>
-              <TableCell colSpan={2} align="center" sx={{ border: "none" }
-            }>
-                <CircularProgress />
-              </TableCell>
-            </TableRow>
+          ) : (
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={2} align="center" sx={{ border: "none" }}>
+                  <CircularProgress />
+                </TableCell>
+              </TableRow>
+            </TableBody>
           )}
         </Table>
       </TableContainer>
@@ -129,11 +142,7 @@ TagTable.propTypes = {
   setPage: PropTypes.func,
   rowsPerPage: PropTypes.number,
   setRowsPerPage: PropTypes.func,
-  sortConfig: {
-    sortBy: PropTypes.string,
-    setSortOrder: PropTypes.func,
-    setSortBy: PropTypes.func,
-  },
+  sortConfig: PropTypes.object,
   loading: PropTypes.bool,
 };
 

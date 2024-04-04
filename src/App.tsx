@@ -20,23 +20,29 @@ function App() {
   const [rowsPerPage, setRowsPerPage] = useState<number>(defaultRowsPerPage);
 
   useEffect(() => {
-
-    getTags();
+    getTags(rowsPerPage, sortBy, sortOrder, page);
   }, []);
 
   async function getTags(
     rowsPerPage = defaultRowsPerPage,
     sortFiled = "popular",
     sortDirection = "desc",
-    page = 1
+    page = 0
   ) {
     try {
       setLoading(true);
+      console.log(
+        "Fetching tags...",
+        page + 1,
+        rowsPerPage,
+        sortDirection,
+        sortFiled
+      );
       const response = await fetch(
-        `https://api.stackexchange.com/2.3/tags?page=${page}&pagesize=${rowsPerPage}&order=${sortDirection}&sort=${sortFiled}&site=stackoverflow&key=4UBaAyJbbK0NiBol8i*vZA((`
+        `https://api.stackexchange.com/2.3/tags?page=${page + 1}&pagesize=${rowsPerPage}&order=${sortDirection}&sort=${sortFiled}&site=stackoverflow&key=4UBaAyJbbK0NiBol8i*vZA((`
       );
       const data = await response.json();
-      const fomrmatData: Tag[] = data.items.map((item: any) => {
+      const fomrmatData: Tag[] = data?.items.map((item: any) => {
         return {
           name: item.name,
           count: item.count,
@@ -63,11 +69,10 @@ function App() {
   }
 
   const handleChange = (event: any) => {
-    setRowsPerPage(event.target.value);
+    setRowsPerPage(parseInt(event.target.value));
   };
 
   const handleSubmit = () => {
-    setLoading(true);
     if (rowsPerPage < minRowsPerPage) {
       getTags(minRowsPerPage, sortConfig.sortBy, sortConfig.sortOrder, page);
       setRowsPerPage(minRowsPerPage);
@@ -88,12 +93,11 @@ function App() {
   };
 
   const sortConfig = {
-    sortBy,
-    setSortBy,
-    sortOrder,
-    setSortOrder,
+    sortBy: sortBy,
+    setSortBy: setSortBy,
+    sortOrder: sortOrder,
+    setSortOrder: setSortOrder,
   };
-
 
   return (
     <Container className="app">
@@ -104,8 +108,6 @@ function App() {
         minRowsPerPage={minRowsPerPage}
         maxRowsPerPage={maxRowsPerPage}
       />
-
- 
 
       <ErrorWarningAlert
         error={error}
